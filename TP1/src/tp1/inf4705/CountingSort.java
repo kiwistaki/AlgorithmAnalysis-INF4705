@@ -1,5 +1,7 @@
 package tp1.inf4705;
 
+import java.util.List;
+
 public class CountingSort 
 {
 
@@ -16,51 +18,47 @@ public class CountingSort
 		return instance;
 	}
 
-	//Méthode tirée de : http://www.geeksforgeeks.org/counting-sort/
-
-	private int[] sort(int[] array)
-	{
+	// Code inspire de http://rosettacode.org/wiki/Sorting_algorithms/Counting_sort#Java
+	public List<Long> sort(List<Long> array){
+		Long[] minMax = getMinMaxValues(array);
+		Long min = minMax[0];
+		Long max = minMax[1];
 		
-	    int[] aux = new int[array.length];
-	    
-	    // find the smallest and the largest value
-	    int min = array[0];
-	    int max = array[0];
-	    for (int i = 1; i < array.length; i++) {
-	      if (array[i] < min) {
-	        min = array[i];
-	      } else if (array[i] > max) {
-	        max = array[i];
-	      }
-	    }
-	 
-	    // init array of frequencies
-	    int[] counts = new int[max - min + 1];
-	 
-	    // init the frequencies
-	    for (int i = 0;  i < array.length; i++) {
-	      counts[array[i] - min]++;
-	    }
-	 
-	    // recalculate the array - create the array of occurences
-	    counts[0]--;
-	    for (int i = 1; i < counts.length; i++) {
-	      counts[i] = counts[i] + counts[i-1];
-	    }
-	 
-	    /*
-	      Sort the array right to the left
-	      1) Look up in the array of occurences the last occurence of the given value
-	      2) Place it into the sorted array
-	      3) Decrement the index of the last occurence of the given value
-	      4) Continue with the previous value of the input array (goto set1), 
-	         terminate if all values were already sorted
-	    */ 
-	    for (int i = array.length - 1; i >= 0; i--) {
-	        aux[counts[array[i] - min]--] = array[i];
-	    }
-	 
-	    return aux;
+		long interval = max - min + 1;
+		// Si impossible a traiter
+		if (interval > Integer.MAX_VALUE)
+			return QuickSort.getInstance().insertionSort(array, array.size());
 		
+		
+		long[] count = new long[(int)(max-min+1)];
+		
+		for(long i : array){
+			count[(int)(i-min)]++;
+		}
+		int z= 0;
+		for(long i= min;i <= max;i++){
+			while(count[(int)(i - min)] > 0){
+				array.set(z,i);
+				z++;
+				count[(int)(i - min)]--;
+			}
+		}
+		return array;
 	}
+	
+	private Long[] getMinMaxValues(List<Long> array){
+		Long[] minMax = new Long[2];
+		Long min = array.get(0);
+		Long max = array.get(0);
+		for(int i  = 1; i < array.size(); i++){
+			if(array.get(i)> max)
+				max = array.get(i);
+			if(array.get(i) < min)
+				min = array.get(i);
+		}
+		minMax[0] = min;
+		minMax[1] = max;
+		return minMax;
+	}
+	
 }
