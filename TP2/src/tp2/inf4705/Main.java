@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.LinkedList;
 
 public class Main {
@@ -59,39 +58,57 @@ public class Main {
 		    br.close();
 		}
 		
-		LinkedList<Integer> res = new LinkedList<Integer>();
+		int max = Integer.MIN_VALUE;
+		for(Integer i : vertices){
+			if(i > max){
+				max = i;
+			}
+		}
+		
+		int[][] matriceAdjacence = new int[max+1][max+1];
+		for(int i = 0; i < vertices.size();i++){
+			for(int j = 0; j < vertices.size();j++){
+				matriceAdjacence[i][j] = 0;
+			}
+		}
+		
+		for(Pair<Integer,Integer> e : arcs){
+			matriceAdjacence[e.getFirst()][e.getSecond()] = 1;
+		}
+		
+		
+		int res = 0;
 		switch(algo){
 		case "vorace":
-			startTime = (new Date()).getTime();
-			Vorace vor = Vorace.getInstance();
-			res = vor.longestChain(vertices, arcs);
-			endTime = (new Date()).getTime();
-			total = endTime - startTime;
-			break;
-		case "dynamique":
-			startTime = (new Date()).getTime();
-			Dynamique dym = Dynamique.getInstance();
-			endTime = (new Date()).getTime();
+			startTime = System.nanoTime();
+			res = Greedy.calculerNombreExtension(vertices, arcs);
+			endTime = System.nanoTime();
 			total = endTime - startTime;
 			break;
 		case "retourArriere":
-			startTime = (new Date()).getTime();
-			RetourArriere ra = RetourArriere.getInstance();
-			endTime = (new Date()).getTime();
+			startTime = System.nanoTime();
+			res = Backtracking.getLinearExtension(vertices, arcs);
+			endTime = System.nanoTime();
+			total = endTime - startTime;
+			break;
+		case "dynamique":
+			startTime = System.nanoTime();
+			res = Dynamic.calculateLinearExtension(vertices, arcs, matriceAdjacence);
+			endTime = System.nanoTime();
 			total = endTime - startTime;
 			break;
 		default:
 			break;
 		}
 		
-		if(print){
-			for(Integer el : res)
-				System.out.println(el.toString());
-		}
-		
 		if(afficheTemps){
 			//affiche temps du timer
 			System.out.println(total);
 		}
+		
+		if(print){
+			System.out.println(res);
+		}
+		
 	}
 }
