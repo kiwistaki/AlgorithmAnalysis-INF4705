@@ -21,30 +21,12 @@
     <ClCompile Include="Lieu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PointInteret.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PointEntree.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PointEtape.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Pathfinding.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Lieu.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PointInteret.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PointEntree.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PointEtape.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Pathfinding.h">
